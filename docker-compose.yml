@@ -1,0 +1,10 @@
+﻿services:
+  postgres:
+    image: postgres:latest
+    container_name: TokenTrends.Db
+    environment:
+      POSTGRES_DB: "TokenTrends"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5000:5432"
