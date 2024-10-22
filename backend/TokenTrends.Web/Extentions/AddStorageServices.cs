@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TokenTrends.Domain.Account;
+using TokenTrends.Domain.Account.Identity;
 using TokenTrends.Infrastructure.DataAccess;
+using TokenTrends.Infrastructure.DataAccess.Repositories;
 
 namespace TokenTrends.Web.Extentions;
 
@@ -11,5 +14,8 @@ public static class AddStorageServices
             ?? throw new InvalidOperationException("Connection string not found");
         
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
     }
 }

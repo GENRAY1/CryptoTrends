@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TokenTrends.Domain.Account;
+using TokenTrends.Domain.Account.Identity;
 
 namespace TokenTrends.Infrastructure.DataAccess.Configurations;
 

@@ -1,4 +1,4 @@
-﻿namespace TokenTrends.Domain.Account;
+﻿namespace TokenTrends.Domain.Account.Identity;
 
 public class AccountRole
 {
