@@ -14,13 +14,13 @@ public class RefreshTokenRepository(ApplicationDbContext context)
             .FirstOrDefaultAsync(x => x.AccountId == accountId, cancellationToken);
     }
 
-    public void Add(RefreshToken account)
+    public void Add(RefreshToken refreshToken)
     {
-        context.Add(account);
+        context.Add(refreshToken);
     }
 
-    public void Update(RefreshToken account)
+    public void Update(RefreshToken refreshToken)
     {
-        context.Update(account);
+        context.Update(refreshToken);
     }
 }

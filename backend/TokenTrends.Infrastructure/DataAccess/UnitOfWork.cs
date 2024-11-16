@@ -1,8 +1,8 @@
 ﻿using TokenTrends.Domain.Absractions;
 
-namespace TokenTrends.Infrastructure.DataAccess.Repositories;
+namespace TokenTrends.Infrastructure.DataAccess;
 
-public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
+public class UnitOfWork(ApplicationDbContext context)
 {
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

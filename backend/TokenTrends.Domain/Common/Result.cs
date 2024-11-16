@@ -1,6 +1,6 @@
-﻿using TokenTrends.Domain.Common;
+﻿using PetPalsProfile.Domain.Absractions;
 
-namespace PetPalsProfile.Domain.Absractions;
+namespace TokenTrends.Domain.Common;
 
 public class Result
 {

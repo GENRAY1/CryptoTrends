@@ -12,4 +12,18 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         base.OnModelCreating(modelBuilder);
     }
+    
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            int result = await base.SaveChangesAsync(cancellationToken);
+
+            return result;
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            throw new Exception("Concurrency exception occurred.", ex);
+        }
+    }
 }

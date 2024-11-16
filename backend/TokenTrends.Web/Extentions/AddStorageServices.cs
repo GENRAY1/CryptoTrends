@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TokenTrends.Domain.Absractions;
 using TokenTrends.Domain.Account;
 using TokenTrends.Domain.Account.Identity;
 using TokenTrends.Infrastructure.DataAccess;
@@ -17,5 +18,7 @@ public static class AddStorageServices
 
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
     }
 }

@@ -39,9 +39,16 @@ public class Account : Entity
 
     public void RemoveRole(Role role)
     {
-        _roles.Remove(role);
+        bool isRemoved = _roles.Remove(role);
+        
+        if (isRemoved)
+        {
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 
+    public void Logged () => LastLogin = DateTime.UtcNow;
+    
     public static Account Create(
         string email, 
         string password,
