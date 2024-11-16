@@ -53,7 +53,7 @@ namespace TokenTrends.Infrastructure.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Account");
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("TokenTrends.Domain.Account.AccountRole", b =>
@@ -68,7 +68,7 @@ namespace TokenTrends.Infrastructure.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AccountRole");
+                    b.ToTable("AccountRole", (string)null);
                 });
 
             modelBuilder.Entity("TokenTrends.Domain.Account.Identity.RefreshToken", b =>
@@ -95,7 +95,7 @@ namespace TokenTrends.Infrastructure.DataAccess.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshToken", (string)null);
                 });
 
             modelBuilder.Entity("TokenTrends.Domain.Account.Identity.Role", b =>
@@ -115,7 +115,7 @@ namespace TokenTrends.Infrastructure.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
 
                     b.HasData(
                         new

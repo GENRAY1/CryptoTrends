@@ -1,4 +1,7 @@
-﻿using TokenTrends.Domain.Absractions;
+﻿
+using PetPalsProfile.Domain.Absractions;
+using TokenTrends.Domain.Absractions;
+using TokenTrends.Domain.Common;
 
 namespace TokenTrends.Domain.Account.Identity;
 
@@ -14,15 +17,38 @@ public class RefreshToken : Entity
     
     public Guid AccountId { get; private init; } 
     
+    public void Deactivate() => IsActive = false;
+
+    public void Activate(string value, DateTime expirationDate)
+    {
+        IsActive = true;
+        ExpirationDate = expirationDate;
+        Value = value;
+    }
+    
+    public Result Validate(DateTime utcNow, string value)  {
+        
+        if (IsActive == false)
+            return Result.Failure(AccountErrors.RefreshTokenNotActive);
+
+        if (ExpirationDate < utcNow)
+            return Result.Failure(AccountErrors.RefreshTokenExpired);
+
+        if (Value != value)
+            return Result.Failure(AccountErrors.InvalidRefreshToken);
+        
+        return Result.Success();
+    }
+
     public static RefreshToken Create(
         Guid userId, 
         string value,
-        int lifeTimeInMinutes)
+        DateTime expirationDate)
     {
         return new RefreshToken(Guid.NewGuid())
         {
             Value = value,
-            ExpirationDate = DateTime.UtcNow.AddMinutes(lifeTimeInMinutes),
+            ExpirationDate = expirationDate,
             IsActive = true,
             AccountId = userId
         };

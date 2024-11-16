@@ -4,7 +4,7 @@ public interface IRefreshTokenRepository
 {
     Task<RefreshToken?> GetByAccountId(Guid accountId, CancellationToken cancellationToken);
     
-    void Add(RefreshToken account);
+    void Add(RefreshToken refreshToken);
     
-    void Update(RefreshToken account);
+    void Update(RefreshToken refreshToken);
 }
