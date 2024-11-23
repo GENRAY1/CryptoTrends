@@ -8,7 +8,7 @@ public static class SwaggerServicesExtensions
     {
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "PetPalsProfile.Profile.Api", Version = "v0.1" });
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "TokenTrends.Api", Version = "v0.1" });
             
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
