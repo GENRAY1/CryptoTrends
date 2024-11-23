@@ -1,10 +1,14 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TokenTrends.Application.Abstractions.Services;
 using TokenTrends.Application.Abstractions.Services.Authentication;
+using TokenTrends.Application.Abstractions.Services.Email;
 using TokenTrends.Infrastructure.Services;
 using TokenTrends.Infrastructure.Services.Authentication;
+using TokenTrends.Infrastructure.Services.Email;
 using TokenTrends.Infrastructure.Services.Options;
 
 namespace TokenTrends.Web.Extentions;
@@ -15,6 +19,7 @@ public static class AddInfrastructureServices
     {
         AddAuthenticationService(services, configuration);
         services.AddAuthorization();
+        AddEmailService(services, configuration);
     }
 
     private static void AddAuthenticationService(IServiceCollection services, IConfiguration configuration)
@@ -46,5 +51,27 @@ public static class AddInfrastructureServices
                     ClockSkew = TimeSpan.FromMinutes(0)
                 };
             });
+    }
+
+    private static void AddEmailService(this IServiceCollection services, IConfiguration configuration)
+    {
+        var emailOptionsConfiguration = configuration.GetSection("Smtp");
+        services.Configure<EmailOptions>(emailOptionsConfiguration);
+        
+        var emailOptions = emailOptionsConfiguration.Get<EmailOptions>();
+        
+        if (emailOptions is null) throw new Exception("Smtp secrets are missing");
+        
+        services.AddTransient<SmtpClient>(s =>
+        {
+            var smtpClient = new SmtpClient();
+            
+            smtpClient.Connect(emailOptions.Host, emailOptions.Port);
+            smtpClient.Authenticate(emailOptions.Username, emailOptions.Password);
+            
+            return smtpClient;
+        });
+        
+        services.AddTransient<IEmailService, EmailService>();
     }
 }

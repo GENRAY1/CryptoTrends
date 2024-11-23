@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TokenTrends.Application.Account.ForgotPassword;
 using TokenTrends.Application.Account.Get;
 using TokenTrends.Application.Account.Login;
 using TokenTrends.Application.Account.Logout;
 using TokenTrends.Application.Account.RefreshToken;
 using TokenTrends.Application.Account.Register;
+using TokenTrends.Application.Account.ResetPassword;
 
 namespace TokenTrends.Presentation.Controllers.Accounts;
 
@@ -90,6 +92,39 @@ public class AccountController(ISender sender)
    {
       var result = await sender.Send(
          new GetAccountQuery(), cancellationToken); 
+      
+      if(result.IsFailure)
+         return BadRequest(result.Error);
+
+      return Ok(result.Value);
+   }
+   
+   [HttpPost]
+   public async Task<ActionResult> ForgotPassword(
+      [FromBody] ForgotPasswordRequest request,
+      CancellationToken cancellationToken) 
+   {
+      var result = await sender.Send(new ForgotPasswordCommand
+      {
+         Email = request.Email
+      }, cancellationToken); 
+      
+      if(result.IsFailure)
+         return BadRequest(result.Error);
+
+      return Ok();
+   }
+   
+   [HttpPost]
+   public async Task<ActionResult> ResetPassword(
+      [FromBody] ResetPasswordRequest request,
+      CancellationToken cancellationToken) 
+   {
+      var result = await sender.Send(new ResetPasswordCommand
+      {
+         Code = request.Code,
+         NewPassword = request.NewPassword
+      }, cancellationToken); 
       
       if(result.IsFailure)
          return BadRequest(result.Error);

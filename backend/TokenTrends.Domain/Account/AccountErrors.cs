@@ -5,6 +5,8 @@ namespace TokenTrends.Domain.Account;
 public static class AccountErrors
 {
    public static Error InvalidCredentials = new("AccountError.InvalidCredentials", "Invalid email or password");
+   
+   public static Error EmailNotFound = new("AccountError.EmailNotFound", "Email not found");
 
    public static Error NotLoggedIn = new ("AccountError.NotLoggedIn", "Account not logged in");
 
@@ -21,4 +23,6 @@ public static class AccountErrors
    public static Error InvalidRefreshToken  =new ("AccountError.InvalidRefreshToken", "Invalid refresh token");
    
    public static Error RefreshTokenNotFound = new("AccountError.RefreshTokenNotFound", "Refresh token not found");
+   
+   public static Error TooManyAttempts = new("AccountError.TooManyAttempts", "Too many attempts. Please try again later");
 }
