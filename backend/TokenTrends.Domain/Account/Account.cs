@@ -22,6 +22,7 @@ public class Account : Entity
     public DateTime? UpdatedAt { get; private set; }
     
     public DateTime? LastLogin { get; private set; }
+    
     public IReadOnlyCollection<Role> Roles => _roles;
     
     public void AddRole(Role role)
@@ -35,6 +36,12 @@ public class Account : Entity
         {
             UpdatedAt = DateTime.UtcNow;
         }
+    }
+    
+    public void ChangePassword(string passwordHash)
+    {
+        Password = passwordHash;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void RemoveRole(Role role)

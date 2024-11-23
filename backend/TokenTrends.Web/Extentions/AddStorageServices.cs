@@ -18,6 +18,7 @@ public static class AddStorageServices
 
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IConfirmationCodeRepository, ConfirmationCodeRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
     }
