@@ -1,4 +1,4 @@
-﻿namespace TokenTrends.Application.Abstractions.Services.Authentication;
+﻿namespace TokenTrends.Application.Services.Authentication;
 
 public class AccountDto
 {

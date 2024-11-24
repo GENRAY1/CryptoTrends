@@ -1,12 +1,14 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using TokenTrends.Application.Abstractions.Services.Authentication;
+using TokenTrends.Application.Services.Authentication;
+using TokenTrends.Infrastructure.Services.Authentication.Exceptions;
 
 namespace TokenTrends.Infrastructure.Services.Authentication;
 
 public class AccountContext(IHttpContextAccessor contextAccessor) : IAccountContext
 {
-    public Guid? AccountId
+    public Guid AccountId
     {
         get
         {
@@ -15,7 +17,7 @@ public class AccountContext(IHttpContextAccessor contextAccessor) : IAccountCont
             if (value != null)
                 return Guid.Parse(value);
             
-            return null;
+            throw new AccountNotAuthenticatedException();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TokenTrends.Application.Abstractions.Services.Authentication;
+﻿using TokenTrends.Application.Services.Authentication;
+
+namespace TokenTrends.Application.Abstractions.Services.Authentication;
 
 public interface IJwtProvider
 {

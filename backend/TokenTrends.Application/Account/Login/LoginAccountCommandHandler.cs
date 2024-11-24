@@ -2,6 +2,7 @@
 using TokenTrends.Application.Abstractions;
 using TokenTrends.Application.Abstractions.Services;
 using TokenTrends.Application.Abstractions.Services.Authentication;
+using TokenTrends.Application.Services.Authentication;
 using TokenTrends.Domain.Absractions;
 using TokenTrends.Domain.Account;
 using TokenTrends.Domain.Account.Identity;

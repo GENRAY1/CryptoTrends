@@ -3,12 +3,17 @@ using System.Text;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Minio;
+using Minio.DataModel.Args;
 using TokenTrends.Application.Abstractions.Services;
 using TokenTrends.Application.Abstractions.Services.Authentication;
-using TokenTrends.Application.Abstractions.Services.Email;
+using TokenTrends.Application.Services.Authentication;
+using TokenTrends.Application.Services.Email;
+using TokenTrends.Application.Services.FileServices;
 using TokenTrends.Infrastructure.Services;
 using TokenTrends.Infrastructure.Services.Authentication;
 using TokenTrends.Infrastructure.Services.Email;
+using TokenTrends.Infrastructure.Services.FileService;
 using TokenTrends.Infrastructure.Services.Options;
 
 namespace TokenTrends.Web.Extentions;
@@ -20,6 +25,7 @@ public static class AddInfrastructureServices
         AddAuthenticationService(services, configuration);
         services.AddAuthorization();
         AddEmailService(services, configuration);
+        AddFileService(services, configuration);
     }
 
     private static void AddAuthenticationService(IServiceCollection services, IConfiguration configuration)
@@ -53,6 +59,21 @@ public static class AddInfrastructureServices
             });
     }
 
+    private static void AddFileService(this IServiceCollection services, IConfiguration configuration)
+    {
+        var optionsConfiguration = configuration.GetSection("S3Options");
+        services.Configure<S3Options>(optionsConfiguration);
+        var options = optionsConfiguration.Get<S3Options>();
+        
+        services.AddMinio(configureClient => configureClient
+            .WithEndpoint(options.Endpoint)
+            .WithCredentials(options.AccessKey, options.SecretKey)
+            .WithSSL(false)
+            .Build());
+
+        services.AddScoped<IFileService, FileService>();
+    }
+    
     private static void AddEmailService(this IServiceCollection services, IConfiguration configuration)
     {
         var emailOptionsConfiguration = configuration.GetSection("Smtp");

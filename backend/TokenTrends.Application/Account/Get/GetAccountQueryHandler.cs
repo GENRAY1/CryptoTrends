@@ -1,6 +1,7 @@
 ﻿using PetPalsProfile.Domain.Absractions;
 using TokenTrends.Application.Abstractions;
 using TokenTrends.Application.Abstractions.Services.Authentication;
+using TokenTrends.Application.Services.Authentication;
 using TokenTrends.Domain.Account;
 using TokenTrends.Domain.Common;
 
@@ -14,12 +15,9 @@ public class GetAccountQueryHandler(
     public async Task<Result<GetAccountDtoResponse>> Handle(GetAccountQuery request, CancellationToken cancellationToken)
     {
         var accountId = accountContext.AccountId;
-        
-        if(accountId is null)
-            return Result.Failure<GetAccountDtoResponse>(AccountErrors.NotLoggedIn); 
 
         var account = await accountRepository
-            .GetById(accountId.Value, cancellationToken);
+            .GetById(accountId, cancellationToken);
         
         if(account is null)
             return Result.Failure<GetAccountDtoResponse>(AccountErrors.AccountNotFound);
@@ -28,9 +26,10 @@ public class GetAccountQueryHandler(
         {
             Email = account.Email,
             Username = account.Username,
+            PhotoFileName = account.PhotoFileName,
             Roles = account.Roles
                 .Select(r => r.Name)
-                .ToList()
+                .ToList(),
         });
         
     }
