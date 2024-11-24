@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TokenTrends.Application.Abstractions.Services.Authentication;
+using TokenTrends.Application.Services.Authentication;
 using TokenTrends.Infrastructure.Services.Options;
 
 namespace TokenTrends.Infrastructure.Services.Authentication;

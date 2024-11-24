@@ -16,6 +16,8 @@ public class Account : Entity
     public string Password { get; private set; } = null!;
 
     public string Username { get; private set; } = null!;
+    
+    public string? PhotoFileName { get; private set; }
 
     public DateTime CreatedAt { get; private set; }
     
@@ -52,6 +54,18 @@ public class Account : Entity
         {
             UpdatedAt = DateTime.UtcNow;
         }
+    }
+
+    public void RemovePhoto()
+    {
+        PhotoFileName = null;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public void SetPhoto(string fileName)
+    {
+        PhotoFileName = fileName;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Logged () => LastLogin = DateTime.UtcNow;

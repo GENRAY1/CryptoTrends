@@ -1,10 +1,28 @@
-﻿services:
-  postgres:
-    image: postgres:latest
-    container_name: TokenTrends.Db
-    environment:
-      POSTGRES_DB: "TokenTrends"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+﻿version: '3.8'
+
+services:
+   minio:
+    image: minio/minio:latest
+    container_name: minioS3
     ports:
-      - "5000:5432"
+      - "5001:5001"
+      - "9000:9000"
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: rootpass
+    volumes:
+      - minio_data:/data
+    command: server /data --address ":5001" --console-address ":9000"
+    
+   postgres:
+     image: postgres:latest
+     container_name: TokenTrends.Db
+     environment:
+       POSTGRES_DB: "TokenTrends"
+       POSTGRES_USER: "postgres"
+       POSTGRES_PASSWORD: "postgres"
+     ports:
+       - "5000:5432"
+
+volumes:
+  minio_data:

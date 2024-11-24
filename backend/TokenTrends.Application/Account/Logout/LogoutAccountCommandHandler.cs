@@ -2,6 +2,7 @@
 using TokenTrends.Application.Abstractions;
 using TokenTrends.Application.Abstractions.Services.Authentication;
 using TokenTrends.Application.Account.Login;
+using TokenTrends.Application.Services.Authentication;
 using TokenTrends.Domain.Absractions;
 using TokenTrends.Domain.Account;
 using TokenTrends.Domain.Account.Identity;
@@ -18,11 +19,8 @@ public class LogoutAccountCommandHandler(
     public async Task<Result> Handle(LogoutAccountCommand request, CancellationToken cancellationToken)
     {
         var accountId = accountContext.AccountId;
-
-        if (accountId is null)
-            return Result.Failure(AccountErrors.NotLoggedIn);
-
-        var refreshToken = await refreshTokenRepository.GetByAccountId(accountId.Value, cancellationToken);
+        
+        var refreshToken = await refreshTokenRepository.GetByAccountId(accountId, cancellationToken);
         
         if (refreshToken is null)
             return Result.Failure(AccountErrors.RefreshTokenNotFound);

@@ -3,7 +3,7 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using PetPalsProfile.Domain.Absractions;
-using TokenTrends.Application.Abstractions.Services.Email;
+using TokenTrends.Application.Services.Email;
 using TokenTrends.Domain.Common;
 using TokenTrends.Infrastructure.Services.Options;
 
@@ -14,7 +14,7 @@ public class EmailService(
     SmtpClient smtpClient
     ) : IEmailService
 {
-    public async Task<Result> SendEmailAsync(string email, string title, string body)
+    public async Task SendEmailAsync(string email, string title, string body)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(options.Value.FromName, options.Value.From));
@@ -25,16 +25,7 @@ public class EmailService(
         {
             Text = body
         };
-
-        try
-        {
-           await smtpClient.SendAsync(message);
-        }
-        catch (Exception e)
-        {
-            return Result.Failure(new Error("EmailService.SendEmailFailed", e.Message));
-        }
         
-        return Result.Success();
+        await smtpClient.SendAsync(message);
     }
 }

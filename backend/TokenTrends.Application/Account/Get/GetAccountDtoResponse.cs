@@ -6,5 +6,6 @@ public class GetAccountDtoResponse
 
     public required string Username { get; init; }
     
+    public string? PhotoFileName { get; init; }
     public required IReadOnlyCollection<string> Roles { get; set; }
 }
